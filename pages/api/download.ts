@@ -5,12 +5,13 @@ import path from 'path';
 import auth from "express-basic-auth";
 import initMiddleware from '../../utils/middleware';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { json } from "stream/consumers";
+import { stringify } from "querystring";
 
 async function fileReader() {  
 
   try {
-    const filePath = new URL('./data/leads.json');
-    const fileContents = await readFile(filePath, { encoding: 'utf8' });
+    const fileContents = await readFile('./data/leads.json', { encoding: 'utf8' });
     return fileContents;
 
   } catch (err) {
@@ -19,8 +20,9 @@ async function fileReader() {
 }
 
 
-const user = process.env.ADMIN_USERNAME || "";
-const password = process.env.ADMIN_PASSWORD || "";
+
+let user = process.env.USER_NAME || "";
+let password = process.env.PASSWORD || "";
 
 const basicAuth = auth({
   users: { [user]: password },
@@ -29,23 +31,18 @@ const basicAuth = auth({
 
 const authMiddleware = initMiddleware(basicAuth);
 
-
-export default function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-  console.log("helo");
-
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (user && password) {
-    authMiddleware(req, res);
+    await authMiddleware(req, res);
   }
-  const {
-    query: { file_name: fileName }
-  } = req;
+  const fileName = 'leads.json';
 
   if (!fileName) {
     return res.status(404).send("File not found");
   }
 
   const decodedFileName = decodeURIComponent(fileName as string);
-  const filePath = path.join(process.cwd(), `./data/${decodedFileName}`);
+  const filePath = path.join(process.cwd(), `./data/${fileName}`);
 
   try {
     fs.accessSync(filePath, fs.constants.R_OK);
@@ -53,11 +50,35 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<any>) 
     return res.status(404).send("File not found");
   }
 
-  const content = fs.readFileSync(filePath);
+  const content = await fileReader() ?? ''
+  const header = "Nazwa placowki,Imie i nazwisko,Telefon,Email"
 
+  const rows: [Lead] = JSON.parse(content);  
+  let csvFormatArray = rows.map(r => `${r.company},${r.name},${r.phone},${r.email}`)
+  
+  csvFormatArray.unshift(header)
+  const csvFormat = csvFormatArray.join("\r\n")
+  let csvContent = csvFormat;
+  csvContent = Buffer.from(csvContent, 'utf-8').toString();
+  
   res.setHeader(
     "content-disposition",
-    `attachment; filename=${decodedFileName}`
+    `attachment; filename=leads.csv`,
   );
-  res.send(content);
+
+  res.setHeader(
+    "content-type","text/csv; charset=UTF-8",
+  );
+  
+
+  res.send(csvContent);
+};
+
+export default handler;
+
+interface Lead{
+  company: string,
+  name: string,
+  email: string,
+  phone: string
 }

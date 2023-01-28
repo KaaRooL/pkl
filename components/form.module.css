@@ -1,0 +1,59 @@
+form.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label.label {
+  font-weight: bold;
+}
+
+label.permission {
+  margin: 1px;
+  font-weight: normal;
+  font-size: 8;
+}
+
+
+input.form-control {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.form-group{
+  display: flex;
+  flex-direction: column;
+}
+
+
+button.btn {
+  padding: 0.5rem 1rem;
+  /* background-color: blue; */
+  /* border-radius: 0.25rem; */
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s;
+  margin-bottom: 10px;
+}
+
+button.btn:hover {
+  /* background-color: darkblue; */
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+  transform: translate(-2px, -2px);
+}
+
+
+.permission a{
+  color: blue;
+}
+
+.permission a:hover,
+.permission a:focus,
+.permission a:active {
+  text-decoration: underline;
+}

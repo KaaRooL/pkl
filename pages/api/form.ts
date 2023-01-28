@@ -2,6 +2,7 @@ import { NextApiResponse } from 'next';
 import path from 'path';
 import { promises as fs } from 'fs';
 import { NextApiRequest } from 'next';
+import sendEmail from '../../utils/mailing-service';
 
 async function fileReader() {
   const fileContents = await fs.readFile('./data/leads.json', 'utf8');
@@ -24,16 +25,8 @@ const processFile = async (lead: any) => {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<any>) {
   const body = req.body
-  console.log('body: ', body)
-
-  const rows = [body.company, body.name, body.email, body.phone];
-
-  //csv generation to move
-  let csvContent = "data:text/csv;charset=utf-8," + rows.join(",");
-  var encodedUri = encodeURI(csvContent);
-  //
-
   processFile(body);
+  sendEmail(body);
 
-  res.status(200).json({ data: encodedUri })
+  res.status(200).json({ data: "DONE" })
 }

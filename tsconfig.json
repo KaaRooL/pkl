@@ -103,7 +103,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "pages/posts/download.js"  ],
   "exclude": [
     "node_modules"
   ]

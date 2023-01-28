@@ -5,11 +5,10 @@ type MiddlewareType = (
   res: NextApiResponse,
   callback: (result: any) => void
 ) => void;
+
 export default function initMiddleware(middleware: MiddlewareType) {
-  console.log("Middleware??");
   return (req: NextApiRequest, res: NextApiResponse) =>
     new Promise((resolve, reject) => {
-      console.log("Middleware??");
       middleware(req, res, (result) => {
         if (result instanceof Error) {
           return reject(result);

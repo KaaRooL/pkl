@@ -1,19 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import Layout from '../../components/layout';
-import Form from '../../components/form'
-import Banner from '../../components/banner'
-import styles from '../../styles/styles.module.css'
+import Layout from '../components/layout';
+import Form from '../components/form'
+import Banner from '../components/banner'
+import styles from '../styles/styles.module.css'
 
 export default function Index() {
-
-
-
-
-
-
   return (
-
     <Layout>
       <Head>
         <title>Formularz</title>

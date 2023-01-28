@@ -1,7 +1,4 @@
-﻿/*
- * Copyright (C) 2023 Patco, LLC - All Rights Reserved.
- * You may not use, distribute, make copy of, and modify this code without express written permission by Patco, LLC.
- */
+﻿
 import Head from 'next/head'
 import styles from '../styles/Home.module.css';
 import Link from 'next/link';
@@ -13,7 +10,6 @@ export default function Home() {
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
         <h1 className={styles.title}>
           Welcome to <Link href="/posts/first-post">this page!</Link> essa

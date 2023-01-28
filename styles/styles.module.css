@@ -1,0 +1,18 @@
+.intro{
+  margin: 50px 0;
+}
+.container {
+  max-width: 36rem;
+  padding: 0 1rem;
+  margin: 3rem auto 6rem;
+}
+
+a.url {
+  color: blue;
+  text-decoration: none;
+}
+
+a.url:hover {
+  color: darkblue;
+  text-decoration: underline;
+}
